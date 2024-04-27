@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fangar - WikipediA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', Helvetica, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        #search-input {
+
+            outline: none;
+            height: 45px;
+            position: relative;
+            padding-right: 5px;
+            width: 84%;
+            font-size: 14px;
+            padding-left: 65px;
+            border:none;
+            background: transparent;
+            outline: none;
+        }
+
+        #search-input:focus {
+            border-color: #005f5f;
+        }
+
+        #search-icon {
+            transform: translateY(-50%);
+            position: relative;
+            font-size: 17px;
+            top: 11px;
+            color: #008c8c;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+
+        .result-details {
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #1a0dab;
+        }
+
+        a {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .url{
+            color: #006621;
+            
+        }
+
+        .snippet {
+            color: #545454;
+        }
+        #withh{
+            padding: 5px;
+            width: 750px;
+            font-size: 16px;
+            border: 1px solid #80d0c7;
+            border-radius: 0.8rem;
+        }
+        .f1{
+            width: 70%;
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            border-radius: 0.8rem;
+            display: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .another{
+            padding: 20px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <img src="/media/wiki.png" style="height: 50px; position: absolute;right: 50px;" alt="FanGar Wiki">
+        <form id="search-form" autocomplete="off" >
+            <div id="withh">
+                <img src="/media/fangar.png" style="height: 50px;;width:80px;margin-right: 20px;position: absolute;">
+                <input type="text" id="search-input"  onfocus="document.querySelector('body').style.background = 'rgba(51, 170, 51, .1)';document.querySelector('#withh').style.background = '#fff'" onblur="document.querySelector('body').style.background = '#fff'">
+                <button class="fa fa-search" onclick="btn()" type="button" id="search-icon" style="color: #80d0c7;"></button>
+            </div>
+        </form>
+    </div>
+    <div style="border-bottom: .5px solid #80d0c7;margin-bottom: 20px;"></div>
+        <div class="f1"></div>
+        <div class="f2"></div>
+        <div class="f3"></div>
+    </div>
+    <script>
+        let do1 = document.querySelector(".f1");
+        let do2 = document.querySelector(".f2");
+        let do3 = document.querySelector(".f3");
+        let val = document.querySelector("#search-input");
+        val.addEventListener("keydown", function(e){
+            if(e.keyCode == 13){
+                e.preventDefault();
+                fetch('http://api.duckduckgo.com/?q='+val.value+'+&format=json')
+                .then(response => response.json())
+                .then(json => {
+                    do2.innerHTML = ""
+                    if(json.Heading == ""){
+                        document.querySelector(".f1").style.display = "none";
+                    }else{
+                        document.querySelector(".f1").style.display = "block";
+                    }
+                    if(json.Image == ""){
+                        do1.innerHTML = "<div style='display:flex'><img src='user.png' style='height:40px;margin-right:5px'><h5 style='color:#008c8c;'> — "+ json.Heading+"</h5></div>";
+                    }else{
+                        do1.innerHTML = "<div style='display:flex'><img src='https://duckduckgo.com"+json.Image+"' style='height:40px;margin-right:5px'><h5 style='color:#008c8c;'> — "+ json.Heading+"</h5></div>";
+                    }
+                    if(!(json.OfficialWebsite == undefined)){
+                        do1.innerHTML += `<a href="${json.OfficialWebsite}">${json.OfficialWebsite}</a>`;
+                    }
+                    do1.innerHTML += "<div style='margin:10px 0px'>"+json.Abstract+"</div>";
+                    do1.innerHTML += "<div><a class='url' href='"+json.AbstractURL+"'>"+json.AbstractSource+"</a></div>";
+                 
+                    json.RelatedTopics.map((data1)=>{
+                        if(!(data1.Text  == undefined)){
+
+                            do2.innerHTML += `<div class="another">${data1.Result}</div>`;
+
+                        }else if(data1.Text == undefined){
+                            data1.Topics.map((qw)=>{
+                                do3.innerHTML = `<div class="another">${qw.Result}</div>`;
+                            })
+                        }
+                    })
+                    console.log(json)
+                
+            
+            })
+          
+            }
+            
+        })
+            function btn(){
+            fetch('http://api.duckduckgo.com/?q='+val.value+'+&format=json')
+            .then(response => response.json())
+            .then(json => {
+                if(json.Heading == ""){
+                    do2.innerHTML = ""
+                        document.querySelector(".f1").style.display = "none";
+                    }else{
+                        document.querySelector(".f1").style.display = "block";
+                    }
+                    if(json.Image == ""){
+                        do1.innerHTML = "<div style='display:flex'><img src='user.png' style='height:40px;margin-right:5px'><h5 style='color:#008c8c;'> — "+ json.Heading+"</h5></div>";
+                    }else{
+                        do1.innerHTML = "<div style='display:flex'><img src='https://duckduckgo.com"+json.Image+"' style='height:40px;margin-right:5px'><h5 style='color:#008c8c;'> — "+ json.Heading+"</h5></div>";
+                    }
+                    
+                    do1.innerHTML += "<div style='margin:10px 0px'>"+json.Abstract+"</div>";
+                    do1.innerHTML += "<div><a class='url' href='"+json.AbstractURL+"'>"+json.AbstractSource+"</a></div>";
+                    
+                    json.RelatedTopics.map((data1)=>{
+                        if(!(data1.Text  == undefined)){
+
+                            do2.innerHTML = `<div> ${data1.Text} </div>`;
+
+                        }else{
+                            do3.innerHTML = `<div>k</div>`;
+                        }
+                    })
+                do2=""
+        
+            })}
+
+    </script>
+    
+</body>
+</html>

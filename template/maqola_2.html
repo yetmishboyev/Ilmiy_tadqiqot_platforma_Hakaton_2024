@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Search Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', Helvetica, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        #search-input {
+
+            outline: none;
+            height: 30px;
+            position: relative;
+            padding-right: 5px;
+            width: 90%;
+            font-size: 14px;
+            padding-left: 5px;
+            border:none;
+            background: transparent;
+            outline: none;
+        }
+
+        #search-input:focus {
+            border-color: #005f5f;
+        }
+
+        #search-icon {
+            transform: translateY(-50%);
+            position: relative;
+            font-size: 17px;
+            top: 11px;
+            color: #008c8c;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .search-result {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 0.8rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+            width: 50%;
+        }
+
+        .result-details {
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #1a0dab;
+        }
+
+        a {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .url a{
+            color: #006621;
+            
+        }
+
+        .snippet {
+            color: #545454;
+        }
+        #withh{
+            padding: 15px;
+            width: 648px;
+            font-size: 16px;
+            border: 1px solid #008c8c;
+            border-radius: 0.8rem;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <a href="/qidirish"><img src="/media/fangar.png" style="height: 60px;margin-right: 20px;"></a>
+        <form id="search-form"  method="post" autocomplete="off" >{% csrf_token %}
+            <div id="withh">
+                <input name="kirit" type="text" id="search-input" placeholder="Qidiriruv..."  onfocus="document.querySelector('body').style.background = 'rgba(51, 170, 51, .1)';document.querySelector('#withh').style.background = '#fff'" onblur="document.querySelector('body').style.background = '#fff'">
+                <button class="fa fa-search"  type="submit" id="search-icon"></button>
+            </div>
+        </form>
+    </div>
+    <div style="border-bottom: 0.5px solid #008c8c;margin-bottom: 5px;"></div>
+    {% for i in data %}
+    <div style="width:100%">
+        <div class="search-result">
+        <h2>{{ i.title }}</h2>
+        <div class="url"><a href="{{ i.link }}" target="_blank">{{ i.link }}</a></div>
+        <div class="snippet">{{ i.snippet }}</div>
+    </div>
+{% endfor %}
+    </div>
+</body>
+</html>

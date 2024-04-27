@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Login & Signup Form</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}" />
+  </head>
+  <body>
+    <section class="wrapper">
+      <div class="form signup">
+        <header>Kirish</header>
+        <form method="post">{% csrf_token %}
+          <input type="text" name="login" placeholder="Login" required />
+          <input type="password" name="parol" placeholder="Password" required />
+<div style=" display:flex; justify-content:space-between"><a style="color:#fff; font-weight:600;" href="/register">Ro'yxatdan o'tish</a> <br> <a style="color:#fff; font-weight:600;" href="/">Asosiy sahifaga qaytish</a></div>
+            <input type="submit" value="Kirish" />
+        </form>
+      </div>
+    </section>
+  </body>
+</html>
